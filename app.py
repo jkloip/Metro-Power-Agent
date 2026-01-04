@@ -62,7 +62,7 @@ plt.style.use('dark_background') if st.get_option("theme.base") == "dark" else p
 
 # ==================== 常數定義 ====================
 MAX_REASONING_STEPS = 12
-MODEL_NAME = "gpt-4.0-mini" # 或使用 gpt-3.5-turbo / gpt-4-turbo
+MODEL_NAME = "gpt-4.1-mini" # 或使用 gpt-3.5-turbo / gpt-4-turbo
 MODEL_TEMPERATURE = 0.1
 
 # ==================== 圖表生成工具函數 ====================
