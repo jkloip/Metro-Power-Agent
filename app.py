@@ -1,6 +1,6 @@
 """
-Metro-Power-Agent V1 - 台北捷運供電廠智慧電力維護代理系統
-系統屬性：台北捷運系統處供電廠維修輔助工具
+Metro-Power-Agent V1 - 捷運供電廠智慧電力維護代理系統
+系統屬性：捷運系統處供電廠維修輔助工具
 版本：v1.1 (Sidebar API Key Update)
 新增功能：
     - Matplotlib 工程圖表自動生成
@@ -429,7 +429,7 @@ def run_power_agent_loop(fault_data: str, api_key: str):
         return
 
     # 更新 System Prompt，教導 Agent 使用完整的工具流程
-    system_prompt = """你是一位台北捷運供電廠資深主任工程師。
+    system_prompt = """你是一位捷運供電廠資深主任工程師。
 任務：利用工具診斷供電設備故障原因。
 
 診斷流程（必須依序執行）：
@@ -512,7 +512,7 @@ def run_power_agent_loop(fault_data: str, api_key: str):
 
 def main():
     st.set_page_config(page_title="TRTC Power-Agent V1", layout="wide", page_icon="⚡")
-    st.title("⚡ 台北捷運供電廠智慧電力維護代理系統 V1")
+    st.title("⚡ 捷運供電廠智慧電力維護代理系統 V1")
     st.caption("Agentic AI 輔助工具：支援 PRPD 相位圖譜與 di/dt 波形自動分析")
 
     if 'fault_desc' not in st.session_state: st.session_state.fault_desc = ""
