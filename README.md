@@ -1,4 +1,4 @@
-# ⚡ Metro-Power-Agent (台北捷運供電智慧維護代理系統 MVP)
+# ⚡ Metro-Power-Agent (捷運供電智慧維護代理系統 MVP)
 
 
 這是一個基於 Generative AI (OpenAI GPT-4o-mini) 的供電設備故障診斷輔助工具原型 (PoC)。本系統模擬捷運供電廠的維修場景，協助工程師分析電纜絕緣與直流斷路器 (HSCB) 故障。
