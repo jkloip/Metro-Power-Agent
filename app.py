@@ -27,6 +27,7 @@ from openai import OpenAI
 
 # 設定 Matplotlib 中文字體 - 動態檢測可用字體
 def setup_chinese_font():
+    '''
     """動態檢測並設定中文字體"""
     # Windows 常見中文字體
     chinese_fonts = [
@@ -53,6 +54,18 @@ def setup_chinese_font():
     # 如果都找不到，嘗試使用 sans-serif 並禁用 unicode minus
     plt.rcParams['axes.unicode_minus'] = False
     return None
+    '''
+    # 設定字體檔案路徑 (請確認檔名是否為 NotoSansTC-Regular.ttf)
+    font_path = 'NotoSansTC-Regular.ttf' 
+    
+    if os.path.exists(font_path):
+        font_prop = fm.FontProperties(fname=font_path)
+        plt.rcParams['font.family'] = font_prop.get_name()
+        print(f"成功載入字體: {font_path}")
+        return font_prop
+    else:
+        print("未找到字體檔案，使用系統預設")
+        return None
 
 # 設定中文字體
 setup_chinese_font()
