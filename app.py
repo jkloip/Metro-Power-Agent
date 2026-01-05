@@ -30,13 +30,13 @@ def setup_chinese_font():
     """動態檢測並設定中文字體"""
     # Windows 常見中文字體
     chinese_fonts = [
+        'Noto Sans CJK TC',    # Google Noto
         'Microsoft JhengHei',  # 微軟正黑體
         'Microsoft YaHei',     # 微軟雅黑
         'SimHei',              # 黑體
         'DFKai-SB',            # 標楷體
         'MingLiU',             # 細明體
-        'PMingLiU',            # 新細明體
-        'Noto Sans CJK TC',    # Google Noto
+        'PMingLiU',            # 新細明體        
         'Arial Unicode MS'
     ]
     
