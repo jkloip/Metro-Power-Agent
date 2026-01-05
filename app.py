@@ -25,53 +25,44 @@ from openai import OpenAI
 # load_dotenv() # 已移除
 # client = OpenAI(api_key=os.getenv("OPENAI_API_KEY")) # 已移除全域初始化
 
-# 設定 Matplotlib 中文字體 - 動態檢測可用字體
+# 設定 Matplotlib 中文字體 - 針對 Streamlit Cloud 優化
 def setup_chinese_font():
-    '''
-    """動態檢測並設定中文字體"""
-    # Windows 常見中文字體
-    chinese_fonts = [
-        'Noto Sans CJK TC',    # Google Noto
-        'Microsoft JhengHei',  # 微軟正黑體
-        'Microsoft YaHei',     # 微軟雅黑
-        'SimHei',              # 黑體
-        'DFKai-SB',            # 標楷體
-        'MingLiU',             # 細明體
-        'PMingLiU',            # 新細明體        
-        'Arial Unicode MS'
-    ]
-    
-    # 獲取系統所有可用字體
-    available_fonts = [f.name for f in fm.fontManager.ttflist]
-    
-    # 找到第一個可用的中文字體
-    for font in chinese_fonts:
-        if font in available_fonts:
-            plt.rcParams['font.sans-serif'] = [font]
-            plt.rcParams['axes.unicode_minus'] = False
-            return font
-    
-    # 如果都找不到，嘗試使用 sans-serif 並禁用 unicode minus
-    plt.rcParams['axes.unicode_minus'] = False
-    return None
-    '''
-    # 設定字體檔案路徑 (請確認檔名是否為 NotoSansTC-Regular.ttf)
-    font_path = 'NotoSansTC-Regular.ttf' 
+    """
+    設定中文字體以支援 Streamlit Cloud 環境
+    優先使用專案內的 NotoSansTC-Regular.ttf 字型檔
+    """
+    # 設定字體檔案路徑
+    font_path = 'NotoSansTC-Regular.ttf'
     
     if os.path.exists(font_path):
-        font_prop = fm.FontProperties(fname=font_path)
-        plt.rcParams['font.family'] = font_prop.get_name()
-        print(f"成功載入字體: {font_path}")
-        return font_prop
+        try:
+            # 將字型加入 matplotlib 的字型管理器
+            font_entry = fm.FontEntry(fname=font_path, name='Noto Sans TC')
+            fm.fontManager.ttflist.insert(0, font_entry)
+            
+            # 設定 matplotlib 使用此字型
+            plt.rcParams['font.sans-serif'] = ['Noto Sans TC', 'sans-serif']
+            plt.rcParams['font.family'] = 'sans-serif'
+            plt.rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
+            
+            print(f"✓ 成功載入中文字體: {font_path}")
+            return True
+        except Exception as e:
+            print(f"✗ 載入字體時發生錯誤: {e}")
+            plt.rcParams['axes.unicode_minus'] = False
+            return False
     else:
-        print("未找到字體檔案，使用系統預設")
-        return None
+        print(f"✗ 未找到字體檔案: {font_path}")
+        # 嘗試使用系統字型
+        plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'sans-serif']
+        plt.rcParams['axes.unicode_minus'] = False
+        return False
 
 # 設定中文字體
 setup_chinese_font()
 
-# 設定 Matplotlib 風格以適應 Streamlit 深色/淺色模式
-plt.style.use('dark_background') if st.get_option("theme.base") == "dark" else plt.style.use('default')
+# 注意：不使用 plt.style.use() 因為會重設字型設定
+# 改為在需要時手動調整顏色配置
 
 # ==================== 常數定義 ====================
 MAX_REASONING_STEPS = 12
@@ -82,9 +73,6 @@ MODEL_TEMPERATURE = 0.1
 
 def generate_prpd_plot(qmax_pc: float, pattern_type: str = "void"):
     """生成局部放電 PRPD 相位圖譜 - 使用隨機數據模擬真實情況"""
-    # 每次繪圖前確保字體設定正確
-    setup_chinese_font()
-    
     fig, ax = plt.subplots(figsize=(10, 5))
     
     # 模擬 AC 電壓波形作為背景參考（隨機振幅變化）
@@ -197,9 +185,6 @@ def generate_prpd_plot(qmax_pc: float, pattern_type: str = "void"):
 
 def generate_didt_plot(fault_type: str):
     """生成 HSCB 直流電流 di/dt 特性曲線 - 使用隨機數據模擬真實情況"""
-    # 每次繪圖前確保字體設定正確
-    setup_chinese_font()
-    
     fig, ax = plt.subplots(figsize=(10, 5))
     t = np.linspace(0, 25, 500) # 增加時間範圍和採樣點
 
